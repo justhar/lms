@@ -1,13 +1,16 @@
 import { Hono } from "hono";
 import db from "../modules/db";
 import { eq } from "drizzle-orm";
-import { usersTable } from "@server/db/schema";
+import { classesTable, usersTable } from "@server/db/schema";
 import { sign, verify } from "hono/jwt";
 
 const auth = new Hono();
 
 auth.post("/login", async (c) => {
   const { username, password } = await c.req.json();
+
+  // Make sure to import classesTable from your schema
+  // import { classesTable } from "@server/db/schema";
 
   const user = await db
     .select()
@@ -36,6 +39,7 @@ auth.post("/login", async (c) => {
   const payload = {
     userId: user[0].id,
     fullName: user[0].fullName,
+    classId: user[0].classId,
     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
   };
 
@@ -50,7 +54,7 @@ auth.post("/login", async (c) => {
   return c.json(successResponse, 200);
 });
 
-auth.post("/verifySession", async (c) => {
+auth.post("/verify", async (c) => {
   const token = c.req.header("Authorization")?.replace("Bearer ", "");
   if (!token) {
     return c.json({ message: "No token provided", success: false }, 401);

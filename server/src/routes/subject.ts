@@ -1,4 +1,9 @@
-import { subjectsTable, submissionsTable, postsTable } from "@server/db/schema";
+import {
+  subjectsTable,
+  submissionsTable,
+  postsTable,
+  usersTable,
+} from "@server/db/schema";
 import db from "@server/modules/db";
 import { eq, and } from "drizzle-orm";
 import { Hono } from "hono";
@@ -11,6 +16,7 @@ subject.post("/", async (c) => {
   const subject = await db
     .select()
     .from(subjectsTable)
+    .leftJoin(usersTable, eq(usersTable.id, subjectsTable.teacherId))
     .where(eq(subjectsTable.id, id));
 
   if (subject.length === 0 || !subject[0]) {
@@ -24,12 +30,12 @@ subject.post("/", async (c) => {
 });
 
 subject.post("/all", async (c) => {
-  const { id } = await c.req.json();
+  const { classId } = await c.req.json();
 
   const subjects = await db
     .select()
     .from(subjectsTable)
-    .where(eq(subjectsTable.classId, id));
+    .where(eq(subjectsTable.classId, classId));
 
   if (subjects.length === 0) {
     return c.json({ message: "No subjects found", success: false }, 404);
@@ -39,18 +45,11 @@ subject.post("/all", async (c) => {
 });
 
 subject.post("/posts", async (c) => {
-  const { id, userId } = await c.req.json();
+  const { id } = await c.req.json();
 
   const posts = await db
     .select()
     .from(postsTable)
-    .leftJoin(
-      submissionsTable,
-      and(
-        eq(submissionsTable.assignmentId, postsTable.id),
-        eq(submissionsTable.userId, userId)
-      )
-    )
     .where(eq(postsTable.subjectId, id));
 
   if (posts.length === 0 || !posts[0]) {
@@ -64,19 +63,21 @@ subject.post("/posts", async (c) => {
 });
 
 subject.post("/post", async (c) => {
-  const { id, userId } = await c.req.json();
+  const { id, userId, subjectId } = await c.req.json();
 
   const posts = await db
     .select()
     .from(postsTable)
+    .where(and(eq(postsTable.id, id), eq(postsTable.subjectId, subjectId)))
     .leftJoin(
       submissionsTable,
       and(
-        eq(submissionsTable.assignmentId, postsTable.id),
+        eq(submissionsTable.assignmentId, id),
         eq(submissionsTable.userId, userId)
       )
-    )
-    .where(eq(postsTable.id, id));
+    );
+
+  console.log(posts);
 
   if (posts.length === 0 || !posts[0]) {
     return c.json({ message: "Post not found", success: false }, 404);
@@ -118,26 +119,6 @@ subject.post("/post/create", async (c) => {
   return c.json({ message: "Post created", post, success: true }, 201);
 });
 
-subject.post("/submission/upload", async (c) => {
-  const { assignmentId, userId, content, fileUrl } = await c.req.json();
-
-  const submission = await db.insert(submissionsTable).values({
-    assignmentId,
-    userId,
-    content,
-    fileUrl,
-    status: "submitted",
-  });
-
-  return c.json(
-    {
-      message: "Submission uploaded",
-      success: true,
-    },
-    201
-  );
-});
-
 subject.post("/submissions", async (c) => {
   const { id, userId } = await c.req.json();
 
@@ -154,22 +135,6 @@ subject.post("/submissions", async (c) => {
     { message: "Submission found", submission: submissions[0], success: true },
     200
   );
-});
-
-subject.post("/submission/grade", async (c) => {
-  const { submissionId, grade, feedback } = await c.req.json();
-
-  const submission = await db
-    .update(submissionsTable)
-    .set({ grade, feedback, status: "graded" })
-    .where(eq(submissionsTable.id, submissionId))
-    .returning();
-
-  if (submission.length === 0 || !submission[0]) {
-    return c.json({ message: "Submission not found", success: false }, 404);
-  }
-
-  return c.json({ message: "Submission graded", success: true }, 200);
 });
 
 export default subject;

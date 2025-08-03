@@ -16,6 +16,7 @@ auth.post("/login", async (c) => {
     .select()
     .from(usersTable)
     .where(eq(usersTable.username, username))
+    .leftJoin(classesTable, eq(usersTable.classId, classesTable.id))
     .limit(1);
 
   if (user.length == 0 || !user[0]) {
@@ -26,7 +27,10 @@ auth.post("/login", async (c) => {
     return c.json(errorResponse, 404);
   }
 
-  const isValidPassword = await Bun.password.verify(password, user[0].password);
+  const isValidPassword = await Bun.password.verify(
+    password,
+    user[0].users.password
+  );
 
   if (!isValidPassword) {
     const errorResponse = {
@@ -37,9 +41,12 @@ auth.post("/login", async (c) => {
   }
 
   const payload = {
-    userId: user[0].id,
-    fullName: user[0].fullName,
-    classId: user[0].classId,
+    userId: user[0].users.id,
+    fullName: user[0].users.fullName,
+    classId: user[0].users.classId,
+    role: user[0].users.role,
+    username: user[0].users.username,
+    class: user[0].classes?.className,
     exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
   };
 

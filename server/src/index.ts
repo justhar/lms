@@ -3,6 +3,7 @@ import { cors } from "hono/cors";
 import auth from "./routes/auth";
 import subject from "./routes/subject";
 import "dotenv/config";
+import assignments from "./routes/assignment";
 
 const app = new Hono();
 
@@ -10,5 +11,6 @@ app.use(cors());
 
 app.route("/auth", auth);
 app.route("/subject", subject);
+app.route("/assignment", assignments);
 
 export default app;

@@ -1,0 +1,2 @@
+ALTER TABLE "submissions" ADD COLUMN "subjectId" integer NOT NULL;--> statement-breakpoint
+ALTER TABLE "submissions" ADD CONSTRAINT "submissions_subjectId_subjects_id_fk" FOREIGN KEY ("subjectId") REFERENCES "public"."subjects"("id") ON DELETE no action ON UPDATE no action;

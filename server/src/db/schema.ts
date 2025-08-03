@@ -61,6 +61,7 @@ export const postsTable = pgTable("posts", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   title: varchar({ length: 255 }).notNull(),
   content: varchar({ length: 1000 }).notNull(),
+  fileUrl: varchar({ length: 1000 }).array(),
   type: varchar({ length: 50 }).notNull(),
   createdAt: timestamp().notNull().defaultNow(),
   deadline: timestamp(),
@@ -84,6 +85,9 @@ export const submissionsTable = pgTable("submissions", {
   assignmentId: integer()
     .notNull()
     .references(() => postsTable.id),
+  subjectId: integer()
+    .notNull()
+    .references(() => subjectsTable.id),
   status: varchar({ length: 50 }).notNull(),
   content: varchar({ length: 1000 }),
   fileUrl: varchar({ length: 1000 }).array(),

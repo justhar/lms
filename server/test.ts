@@ -1,2 +1,2 @@
-const hash = await Bun.password.hash("abdullahganteng");
+const hash = await Bun.password.hash("harokiganteng");
 console.log(hash);

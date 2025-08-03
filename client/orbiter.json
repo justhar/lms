@@ -1,0 +1,6 @@
+{
+  "domain": "edududu",
+  "buildCommand": "tsc -b && vite build",
+  "buildDir": "dist",
+  "siteId": "75237539-54ac-4eea-adec-57c90f3d4fcd"
+}

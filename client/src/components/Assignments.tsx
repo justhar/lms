@@ -1,49 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, FileText } from "lucide-react";
+import { Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getAssignmentsLeft } from "@/lib/db";
 import { useAuthStore } from "@/stores";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-
-const assignments = [
-  {
-    id: 1,
-    title: "Linear Algebra Problem Set 3",
-    subject: "Mathematics",
-    dueDate: "Tomorrow, 11:59 PM",
-    priority: "high",
-    type: "Problem Set",
-    description: "Solve problems 1-15 from Chapter 4",
-  },
-  {
-    id: 2,
-    title: "Essay: The Industrial Revolution",
-    subject: "History",
-    dueDate: "Friday, 11:59 PM",
-    priority: "medium",
-    type: "Essay",
-    description: "1500-word essay on economic impacts",
-  },
-  {
-    id: 3,
-    title: "Lab Report: Chemical Reactions",
-    subject: "Chemistry",
-    dueDate: "Next Monday, 11:59 PM",
-    type: "Lab Report",
-    description: "Analysis of experiment conducted last week",
-  },
-  {
-    id: 4,
-    title: "Programming Project: Calculator App",
-    subject: "Computer Science",
-    dueDate: "Next Wednesday, 11:59 PM",
-    priority: "submitted",
-    type: "Project",
-    description: "Build a calculator using React",
-  },
-];
 
 type Assignment = {
   posts: {

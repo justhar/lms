@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { AssignmentCard } from "@/components/AssignmentCard";
 import { BookOpen, Clock, User, Calendar } from "lucide-react";
 import { useAuthStore } from "@/stores";
-import { getPosts, getSubject, getSubmissions } from "@/lib/db";
+import { getPosts, getSubject } from "@/lib/db";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 
@@ -34,7 +34,6 @@ export default function SubjectDetail() {
   const { user, token } = useAuthStore();
   const { subjectId } = useParams<{ subjectId: string }>();
   const [subject, setSubject] = useState<any>();
-  const [submissions, setSubmissions] = useState<any[]>([]);
   const [posts, setPosts] = useState<any[]>([]);
 
   if (!user || !token || !user.classId || !subjectId) {
@@ -46,15 +45,6 @@ export default function SubjectDetail() {
       .then((data) => {
         setSubject(data);
         console.log("ini subject", data);
-      })
-      .catch((error) => {
-        console.error("Error fetching subject data:", error);
-      });
-
-    getSubmissions(token, parseInt(subjectId), user.id)
-      .then((data) => {
-        setSubmissions(data);
-        console.log("ini submissions", data);
       })
       .catch((error) => {
         console.error("Error fetching subject data:", error);

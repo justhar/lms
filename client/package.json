@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
+  "packageManager": "bun@1.2.4",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -32,6 +33,7 @@
     "sonner": "^2.0.6",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.10",
+    "turbo": "^2.5.5",
     "zustand": "^5.0.6"
   },
   "devDependencies": {

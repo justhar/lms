@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Clock, User, FileText, Sigma } from "lucide-react";
+import { User } from "lucide-react";
 import { useNavigate } from "react-router";
 
 export function SubjectCard({ description, subjectName, id, teacherId }: any) {

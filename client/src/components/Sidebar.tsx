@@ -20,14 +20,12 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Outlet, useNavigate } from "react-router";
 import { useAuthStore } from "@/stores";
 import { useEffect } from "react";
-import { Button } from "./ui/button";
 
 const navigationItems = [
   {

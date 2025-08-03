@@ -1,12 +1,3 @@
-"use client";
-
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
-import { Separator } from "@/components/ui/separator";
-import { AppSidebar } from "@/components/Sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,63 +10,6 @@ import { SubjectCard } from "@/components/SubjectCard";
 import { useEffect, useState } from "react";
 import { getSubjects } from "@/lib/db";
 import { useAuthStore } from "@/stores";
-
-const subjects = [
-  {
-    name: "Mathematics",
-    instructor: "Dr. Sarah Johnson",
-    room: "201",
-    schedule: "Mon, Wed, Fri 9:00 AM",
-    assignments: 8,
-    nextClass: "Tomorrow 9:00 AM",
-    color: "bg-blue-500",
-  },
-  {
-    name: "Physics",
-    instructor: "Prof. Michael Chen",
-    room: "Physics Lab 1",
-    schedule: "Tue, Thu 10:30 AM",
-    assignments: 5,
-    nextClass: "Thursday 10:30 AM",
-    color: "bg-green-500",
-  },
-  {
-    name: "Chemistry",
-    instructor: "Dr. Emily Rodriguez",
-    room: "Chem Lab 2",
-    schedule: "Mon, Wed 2:00 PM",
-    assignments: 6,
-    nextClass: "Wednesday 2:00 PM",
-    color: "bg-purple-500",
-  },
-  {
-    name: "English Literature",
-    instructor: "Ms. Jennifer Davis",
-    room: "105",
-    schedule: "Tue, Thu, Fri 11:00 AM",
-    assignments: 4,
-    nextClass: "Friday 11:00 AM",
-    color: "bg-orange-500",
-  },
-  {
-    name: "History",
-    instructor: "Mr. Robert Wilson",
-    room: "History Hall",
-    schedule: "Mon, Wed 1:00 PM",
-    assignments: 3,
-    nextClass: "Monday 1:00 PM",
-    color: "bg-red-500",
-  },
-  {
-    name: "Computer Science",
-    instructor: "Dr. Lisa Thompson",
-    room: "Computer Lab",
-    schedule: "Tue, Thu 3:30 PM",
-    assignments: 7,
-    nextClass: "Tuesday 3:30 PM",
-    color: "bg-indigo-500",
-  },
-];
 
 export default function Subjects() {
   const { user, token } = useAuthStore();

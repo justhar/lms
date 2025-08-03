@@ -4,7 +4,7 @@ import {
   postsTable,
   usersTable,
 } from "@server/db/schema";
-import db from "@server/modules/db";
+import db from "../modules/db";
 import { eq, and } from "drizzle-orm";
 import { Hono } from "hono";
 

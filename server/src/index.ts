@@ -13,4 +13,8 @@ app.route("/auth", auth);
 app.route("/subject", subject);
 app.route("/assignment", assignments);
 
-export default app;
+export default {
+  async fetch(request: Request, env: any, ctx: any) {
+    return app.fetch(request, env, ctx);
+  },
+};

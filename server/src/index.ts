@@ -9,6 +9,11 @@ const app = new Hono();
 
 app.use(cors());
 
+// Health check endpoint
+app.get("/health", (c) => {
+  return c.json({ status: "healthy", timestamp: new Date().toISOString() });
+});
+
 app.route("/auth", auth);
 app.route("/subject", subject);
 app.route("/assignment", assignments);
